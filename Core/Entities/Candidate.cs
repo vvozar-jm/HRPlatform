@@ -5,15 +5,12 @@ namespace Core.Entities
 {
     public class Candidate : BaseEntity
     {
-        public Candidate()
-        {
-            Skills = new List<Skill>();
-        }
+        public Candidate() { }
 
         public string Name { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ContactNumber { get; set; }
         public string Email { get; set; }
-        public IList<Skill> Skills { get; set; }
+        public IList<CandidateSkill> CandidateSkill { get; set; }
     }
 }
