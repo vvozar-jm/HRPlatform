@@ -1,4 +1,5 @@
 using Core.Repositories;
+using Core.Services;
 using Data;
 using Data.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Services;
 
 namespace API
 {
@@ -26,7 +28,11 @@ namespace API
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
 
-            services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<ICandidateService, CandidateService>();
+            services.AddScoped<ISkillService, SkillService>();
+
+            services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), 
+                x => x.MigrationsAssembly("Data")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
