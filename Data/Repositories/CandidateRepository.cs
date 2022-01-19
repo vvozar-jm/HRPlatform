@@ -15,12 +15,12 @@ namespace Data.Repositories
             _context = context;
         }
 
-        public async Task<Candidate> GetCandidateById(int id)
+        public async Task<Candidate> GetCandidateByIdAsync(int id)
         {
             return await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IList<Candidate>> GetCandidates()
+        public async Task<IList<Candidate>> GetCandidatesAsync()
         {
             return await _context.Candidates.ToListAsync();
         }

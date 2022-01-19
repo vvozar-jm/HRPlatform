@@ -6,7 +6,7 @@ namespace Core.Services
 {
     public interface ICandidateService
     {
-        Task<Candidate> GetCandidate(int id);
-        Task<IList<Candidate>> GetCandidates();
+        Task<Candidate> GetCandidateAsync(int id);
+        Task<IList<Candidate>> GetCandidatesAsync();
     }
 }

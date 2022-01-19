@@ -15,12 +15,12 @@ namespace Data.Repositories
             _context = context;
         }
 
-        public async Task<Skill> GetSkillById(int id)
+        public async Task<Skill> GetSkillByIdAsync(int id)
         {
             return await _context.Skills.FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public async Task<IList<Skill>> GetSkills()
+        public async Task<IList<Skill>> GetSkillsAsync()
         {
             return await _context.Skills.ToListAsync();
         }

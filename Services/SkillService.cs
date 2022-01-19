@@ -15,14 +15,14 @@ namespace Services
             _skillRepository = skillRepository;
         }
 
-        public async Task<Skill> GetSkill(int id)
+        public async Task<Skill> GetSkillAsync(int id)
         {
-            return await _skillRepository.GetSkillById(id);
+            return await _skillRepository.GetSkillByIdAsync(id);
         }
 
-        public async Task<IList<Skill>> GetSkills()
+        public async Task<IList<Skill>> GetSkillsAsync()
         {
-            return await _skillRepository.GetSkills();
+            return await _skillRepository.GetSkillsAsync();
         }
     }
 }

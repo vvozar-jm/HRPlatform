@@ -6,7 +6,7 @@ namespace Core.Repositories
 {
     public interface ISkillRepository
     {
-        Task<Skill> GetSkillById(int id);
-        Task<IList<Skill>> GetSkills();
+        Task<Skill> GetSkillByIdAsync(int id);
+        Task<IList<Skill>> GetSkillsAsync();
     }
 }

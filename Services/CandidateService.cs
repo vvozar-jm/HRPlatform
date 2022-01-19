@@ -15,14 +15,14 @@ namespace Services
             _candidateRepository = candidateRepository;
         }
 
-        public async Task<Candidate> GetCandidate(int id)
+        public async Task<Candidate> GetCandidateAsync(int id)
         {
-            return await _candidateRepository.GetCandidateById(id);
+            return await _candidateRepository.GetCandidateByIdAsync(id);
         }
 
-        public async Task<IList<Candidate>> GetCandidates()
+        public async Task<IList<Candidate>> GetCandidatesAsync()
         {
-            return await _candidateRepository.GetCandidates();
+            return await _candidateRepository.GetCandidatesAsync();
         }
     }
 }
