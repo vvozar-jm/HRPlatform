@@ -37,39 +37,39 @@ namespace Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CandidateSkills",
+                name: "CandidateSkill",
                 columns: table => new
                 {
-                    CandidateId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SkillId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CandidatesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SkillsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CandidateSkills", x => new { x.CandidateId, x.SkillId });
+                    table.PrimaryKey("PK_CandidateSkill", x => new { x.CandidatesId, x.SkillsId });
                     table.ForeignKey(
-                        name: "FK_CandidateSkills_Candidates_CandidateId",
-                        column: x => x.CandidateId,
+                        name: "FK_CandidateSkill_Candidates_CandidatesId",
+                        column: x => x.CandidatesId,
                         principalTable: "Candidates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CandidateSkills_Skills_SkillId",
-                        column: x => x.SkillId,
+                        name: "FK_CandidateSkill_Skills_SkillsId",
+                        column: x => x.SkillsId,
                         principalTable: "Skills",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CandidateSkills_SkillId",
-                table: "CandidateSkills",
-                column: "SkillId");
+                name: "IX_CandidateSkill_SkillsId",
+                table: "CandidateSkill",
+                column: "SkillsId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CandidateSkills");
+                name: "CandidateSkill");
 
             migrationBuilder.DropTable(
                 name: "Candidates");

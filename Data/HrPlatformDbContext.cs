@@ -8,8 +8,6 @@ namespace Data
     {
         public DbSet<Candidate> Candidates { get; set; }
         public DbSet<Skill> Skills { get; set; }
-        public DbSet<CandidateSkill> CandidateSkills { get; set; }
-
 
         public HrPlatformDbContext(DbContextOptions options) : base(options)
         {
@@ -21,7 +19,6 @@ namespace Data
 
             builder.ApplyConfiguration(new CandidateConfiguration());
             builder.ApplyConfiguration(new SkillConfiguration());
-            builder.ApplyConfiguration(new CandidateSkillConfiguration());
         }
     }
 }

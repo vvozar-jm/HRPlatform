@@ -7,7 +7,6 @@ namespace Core.Entities
         public Skill() { }
 
         public string Name { get; set; }
-        public IList<CandidateSkill> CandidateSkill { get; set; }
-
+        public ICollection<Candidate> Candidates { get; set; }
     }
 }

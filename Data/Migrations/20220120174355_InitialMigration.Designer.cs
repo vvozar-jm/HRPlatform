@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(HrPlatformDbContext))]
-    [Migration("20220119215105_InitialMigration")]
+    [Migration("20220120174355_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,6 +17,21 @@ namespace Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.13");
+
+            modelBuilder.Entity("CandidateSkill", b =>
+                {
+                    b.Property<int>("CandidatesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SkillsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CandidatesId", "SkillsId");
+
+                    b.HasIndex("SkillsId");
+
+                    b.ToTable("CandidateSkill");
+                });
 
             modelBuilder.Entity("Core.Entities.Candidate", b =>
                 {
@@ -45,21 +60,6 @@ namespace Data.Migrations
                     b.ToTable("Candidates");
                 });
 
-            modelBuilder.Entity("Core.Entities.CandidateSkill", b =>
-                {
-                    b.Property<int>("CandidateId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("CandidateId", "SkillId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("CandidateSkills");
-                });
-
             modelBuilder.Entity("Core.Entities.Skill", b =>
                 {
                     b.Property<int>("Id")
@@ -76,33 +76,19 @@ namespace Data.Migrations
                     b.ToTable("Skills");
                 });
 
-            modelBuilder.Entity("Core.Entities.CandidateSkill", b =>
+            modelBuilder.Entity("CandidateSkill", b =>
                 {
-                    b.HasOne("Core.Entities.Candidate", "Candidate")
-                        .WithMany("CandidateSkill")
-                        .HasForeignKey("CandidateId")
+                    b.HasOne("Core.Entities.Candidate", null)
+                        .WithMany()
+                        .HasForeignKey("CandidatesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.Skill", "Skill")
-                        .WithMany("CandidateSkill")
-                        .HasForeignKey("SkillId")
+                    b.HasOne("Core.Entities.Skill", null)
+                        .WithMany()
+                        .HasForeignKey("SkillsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Candidate");
-
-                    b.Navigation("Skill");
-                });
-
-            modelBuilder.Entity("Core.Entities.Candidate", b =>
-                {
-                    b.Navigation("CandidateSkill");
-                });
-
-            modelBuilder.Entity("Core.Entities.Skill", b =>
-                {
-                    b.Navigation("CandidateSkill");
                 });
 #pragma warning restore 612, 618
         }
