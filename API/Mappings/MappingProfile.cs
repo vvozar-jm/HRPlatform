@@ -1,4 +1,5 @@
-﻿using API.ViewModels;
+﻿using API.RequestModels;
+using API.ViewModels;
 using AutoMapper;
 using Core.Entities;
 
@@ -15,6 +16,8 @@ namespace API.Mappings
             // viewModel to domain
             CreateMap<CandidateViewModel, Candidate>();
             CreateMap<SkillViewModel, Skill>();
+            CreateMap<CreateCandidateModel, Candidate>();
+            CreateMap<CreateSkillModel, Skill>();
         }
     }
 }

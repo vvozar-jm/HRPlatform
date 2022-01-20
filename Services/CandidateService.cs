@@ -24,5 +24,11 @@ namespace Services
         {
             return await _candidateRepository.GetCandidatesAsync();
         }
+
+        public async Task<Candidate> CreateCandidateAsync(Candidate candidate)
+        {
+            await _candidateRepository.CreateCandidateAsync(candidate);
+            return candidate;
+        }
     }
 }

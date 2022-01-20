@@ -15,6 +15,12 @@ namespace Data.Repositories
             _context = context;
         }
 
+        public async Task CreateCandidateAsync(Candidate candidate)
+        {
+            await _context.Candidates.AddAsync(candidate);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Candidate> GetCandidateByIdAsync(int id)
         {
             return await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
