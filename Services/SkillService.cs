@@ -30,5 +30,10 @@ namespace Services
             await _skillRepository.CreateSkillAsync(skill);
             return skill;
         }
+
+        public async Task DeleteSkillAsync(Skill skill)
+        {
+            await _skillRepository.DeleteSkillAsync(skill);
+        }
     }
 }

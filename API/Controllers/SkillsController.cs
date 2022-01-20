@@ -60,5 +60,25 @@ namespace API.Controllers
 
             return Ok(skillViewModel);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteSkillAsync(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var skill = await _skillService.GetSkillAsync(id);
+
+            if (skill == null)
+            {
+                return NotFound();
+            }
+
+            await _skillService.DeleteSkillAsync(skill);
+
+            return NoContent();
+        }
     }
 }

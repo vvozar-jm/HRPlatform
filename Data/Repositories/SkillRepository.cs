@@ -21,6 +21,12 @@ namespace Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteSkillAsync(Skill skill)
+        {
+            _context.Skills.Remove(skill);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Skill> GetSkillByIdAsync(int id)
         {
             return await _context.Skills.FirstOrDefaultAsync(s => s.Id == id);
