@@ -21,6 +21,12 @@ namespace Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteCandidateAsync(Candidate candidate)
+        {
+            _context.Candidates.Remove(candidate);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Candidate> GetCandidateByIdAsync(int id)
         {
             return await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);

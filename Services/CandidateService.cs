@@ -30,5 +30,10 @@ namespace Services
             await _candidateRepository.CreateCandidateAsync(candidate);
             return candidate;
         }
+
+        public async Task DeleteCandidateAsync(Candidate candidate)
+        {
+            await _candidateRepository.DeleteCandidateAsync(candidate);
+        }
     }
 }
