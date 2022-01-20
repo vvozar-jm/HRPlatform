@@ -1,5 +1,8 @@
-﻿using API.ViewModels;
+﻿using API.RequestModels;
+using API.Validators;
+using API.ViewModels;
 using AutoMapper;
+using Core.Entities;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -36,6 +39,26 @@ namespace API.Controllers
             var result = _mapper.Map<SkillViewModel>(skill);
 
             return Ok(result);
+        }
+
+        [HttpPost("")]
+        public async Task<ActionResult<SkillViewModel>> CreateSkillAsync([FromBody] CreateSkillModel model)
+        {
+            var validator = new CreateSkillModelValidator();
+            var validationResult = await validator.ValidateAsync(model);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            var skillToCreate = _mapper.Map<CreateSkillModel, Skill>(model);
+
+            var newSkill = await _skillService.CreateSkillAsync(skillToCreate);
+
+            var skillViewModel = _mapper.Map<Skill, CandidateViewModel>(newSkill);
+
+            return Ok(skillViewModel);
         }
     }
 }

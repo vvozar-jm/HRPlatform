@@ -24,5 +24,11 @@ namespace Services
         {
             return await _skillRepository.GetSkillsAsync();
         }
+
+        public async Task<Skill> CreateSkillAsync(Skill skill)
+        {
+            await _skillRepository.CreateSkillAsync(skill);
+            return skill;
+        }
     }
 }

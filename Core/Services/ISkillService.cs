@@ -8,5 +8,6 @@ namespace Core.Services
     {
         Task<Skill> GetSkillAsync(int id);
         Task<IList<Skill>> GetSkillsAsync();
+        Task<Skill> CreateSkillAsync(Skill skill);
     }
 }

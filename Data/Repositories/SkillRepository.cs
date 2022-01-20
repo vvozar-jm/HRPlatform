@@ -15,6 +15,12 @@ namespace Data.Repositories
             _context = context;
         }
 
+        public async Task CreateSkillAsync(Skill skill)
+        {
+            await _context.Skills.AddAsync(skill);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Skill> GetSkillByIdAsync(int id)
         {
             return await _context.Skills.FirstOrDefaultAsync(s => s.Id == id);
