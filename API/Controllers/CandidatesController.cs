@@ -14,11 +14,13 @@ namespace API.Controllers
     public class CandidatesController : ControllerBase
     {
         private readonly ICandidateService _candidateService;
+        private readonly ISkillService _skillService;
         private readonly IMapper _mapper;
 
-        public CandidatesController(ICandidateService candidateService, IMapper mapper)
+        public CandidatesController(ICandidateService candidateService, ISkillService skillService, IMapper mapper)
         {
             _candidateService = candidateService;
+            _skillService = skillService;
             _mapper = mapper;
         }
 
@@ -85,6 +87,60 @@ namespace API.Controllers
             var newCandidate = await _candidateService.CreateCandidateAsync(candidateToCreate);
 
             return Ok(newCandidate);
+        }
+
+        [HttpPut("{candidateId}/addskill/{skillId}")]
+        public async Task<ActionResult<Candidate>> AddSkillToCandidateAsync(int candidateId, int skillId)
+        {
+            var candidate = await _candidateService.GetCandidateAsync(candidateId);
+
+            if (candidate == null)
+            {
+                return BadRequest("Invalid candidate Id");
+            }
+
+            var skill = await _skillService.GetSkillAsync(skillId);
+
+            if (skill == null)
+            {
+                return BadRequest("Invalid skill Id");
+            }
+
+            if (candidate.Skills.Contains(skill))
+            {
+                return BadRequest("Candidate already contains given skill");
+            }
+
+            var updatedCandidate = await _candidateService.AddSkillToCandidateAsync(candidateId, skillId);
+
+            return Ok(updatedCandidate);
+        }
+
+        [HttpPut("{candidateId}/removeskill/{skillId}")]
+        public async Task<ActionResult<Candidate>> RemoveSkillFromCandidateAsync(int candidateId, int skillId)
+        {
+            var candidate = await _candidateService.GetCandidateAsync(candidateId);
+
+            if (candidate == null)
+            {
+                return BadRequest("Invalid candidate Id");
+            }
+
+            var skill = await _skillService.GetSkillAsync(skillId);
+
+            if (skill == null)
+            {
+                return BadRequest("Invalid skill Id");
+            }
+
+            if (!candidate.Skills.Contains(skill))
+            {
+                return BadRequest("Candidate does not contain given skill");
+            }
+
+            var updatedCandidate = await _candidateService.RemoveSkillFromCandidateAsync(candidateId, skillId);
+
+            return Ok(updatedCandidate);
         }
 
         [HttpDelete("{id}")]

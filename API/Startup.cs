@@ -34,10 +34,14 @@ namespace API
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<ISkillService, SkillService>();
 
-            services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), 
+            services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
                 x => x.MigrationsAssembly("Data")));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

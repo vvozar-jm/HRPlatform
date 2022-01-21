@@ -17,16 +17,11 @@ namespace Data.Repositories
             _context = context;
         }
 
-        public async Task CreateCandidateAsync(Candidate candidate)
+        public async Task<IList<Candidate>> GetCandidatesAsync()
         {
-            await _context.Candidates.AddAsync(candidate);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteCandidateAsync(Candidate candidate)
-        {
-            _context.Candidates.Remove(candidate);
-            await _context.SaveChangesAsync();
+            return await _context.Candidates
+                .Include(c => c.Skills)
+                .ToListAsync();
         }
 
         public async Task<Candidate> GetCandidateByIdAsync(int id)
@@ -36,17 +31,10 @@ namespace Data.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IList<Candidate>> GetCandidatesAsync()
-        {
-            return await _context.Candidates
-                .Include(c => c.Skills)
-                .ToListAsync();
-        }
-
         public async Task<IList<Candidate>> GetCandidatesByNameAsync(string name)
         {
             return await _context.Candidates
-                .Where(c => c.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase))
+                .Where(c => c.Name == name)
                 .Include(c => c.Skills)
                 .ToListAsync();
         }
@@ -57,6 +45,48 @@ namespace Data.Repositories
                 .Where(c => c.Skills.Contains(skill))
                 .Include(c => c.Skills)
                 .ToListAsync();
+        }
+
+        public async Task CreateCandidateAsync(Candidate candidate)
+        {
+            await _context.Candidates.AddAsync(candidate);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Candidate> AddSkillToCandidateAsync(int candidateId, int skillId)
+        {
+            var skill = await _context.Skills.FirstOrDefaultAsync(s => s.Id == skillId);
+
+            var candidate = await _context.Candidates
+                .Include(c => c.Skills)
+                .FirstOrDefaultAsync(c => c.Id == candidateId);
+
+            candidate.Skills.Add(skill);
+
+            await _context.SaveChangesAsync();
+
+            return candidate;
+        }
+
+        public async Task<Candidate> RemoveSkillFromCandidateAsync(int candidateId, int skillId)
+        {
+            var skill = await _context.Skills.FirstOrDefaultAsync(s => s.Id == skillId);
+
+            var candidate = await _context.Candidates
+                .Include(c => c.Skills)
+                .FirstOrDefaultAsync(c => c.Id == candidateId);
+
+            candidate.Skills.Remove(skill);
+
+            await _context.SaveChangesAsync();
+
+            return candidate;
+        }
+
+        public async Task DeleteCandidateAsync(Candidate candidate)
+        {
+            _context.Candidates.Remove(candidate);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -54,5 +54,15 @@ namespace Services
 
             return await _candidateRepository.GetCandidatesBySkillAsync(skill);
         }
+
+        public async Task<Candidate> AddSkillToCandidateAsync(int candidateId, int skillId)
+        {
+            return await _candidateRepository.AddSkillToCandidateAsync(candidateId, skillId);
+        }
+
+        public async Task<Candidate> RemoveSkillFromCandidateAsync(int candidateId, int skillId)
+        {
+            return await _candidateRepository.RemoveSkillFromCandidateAsync(candidateId, skillId);
+        }
     }
 }
