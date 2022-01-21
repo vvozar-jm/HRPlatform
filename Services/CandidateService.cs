@@ -9,10 +9,12 @@ namespace Services
     public class CandidateService : ICandidateService
     {
         private readonly ICandidateRepository _candidateRepository;
+        private readonly ISkillRepository _skillRepository;
 
-        public CandidateService(ICandidateRepository candidateRepository)
+        public CandidateService(ICandidateRepository candidateRepository, ISkillRepository skillRepository)
         {
             _candidateRepository = candidateRepository;
+            _skillRepository = skillRepository;
         }
 
         public async Task<Candidate> GetCandidateAsync(int id)
@@ -34,6 +36,23 @@ namespace Services
         public async Task DeleteCandidateAsync(Candidate candidate)
         {
             await _candidateRepository.DeleteCandidateAsync(candidate);
+        }
+
+        public async Task<IList<Candidate>> GetCandidatesByNameAsync(string name)
+        {
+            return await _candidateRepository.GetCandidatesByNameAsync(name);
+        }
+
+        public async Task<IList<Candidate>> GetCandidatesBySkillAsync(string skillName)
+        {
+            var skill = await _skillRepository.GetSkillByNameAsync(skillName);
+
+            if (skill == null)
+            {
+                return null;
+            }
+
+            return await _candidateRepository.GetCandidatesBySkillAsync(skill);
         }
     }
 }

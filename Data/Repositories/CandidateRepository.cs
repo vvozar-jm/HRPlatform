@@ -1,7 +1,9 @@
 ﻿using Core.Entities;
 using Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Data.Repositories
@@ -29,12 +31,32 @@ namespace Data.Repositories
 
         public async Task<Candidate> GetCandidateByIdAsync(int id)
         {
-            return await _context.Candidates.FirstOrDefaultAsync(c => c.Id == id);
+            return await _context.Candidates
+                .Include(c => c.Skills)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IList<Candidate>> GetCandidatesAsync()
         {
-            return await _context.Candidates.ToListAsync();
+            return await _context.Candidates
+                .Include(c => c.Skills)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Candidate>> GetCandidatesByNameAsync(string name)
+        {
+            return await _context.Candidates
+                .Where(c => c.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase))
+                .Include(c => c.Skills)
+                .ToListAsync();
+        }
+
+        public async Task<IList<Candidate>> GetCandidatesBySkillAsync(Skill skill)
+        {
+            return await _context.Candidates
+                .Where(c => c.Skills.Contains(skill))
+                .Include(c => c.Skills)
+                .ToListAsync();
         }
     }
 }

@@ -10,5 +10,7 @@ namespace Core.Repositories
         Task<IList<Candidate>> GetCandidatesAsync();
         Task CreateCandidateAsync(Candidate candidate);
         Task DeleteCandidateAsync(Candidate candidate);
+        Task<IList<Candidate>> GetCandidatesByNameAsync(string name);
+        Task<IList<Candidate>> GetCandidatesBySkillAsync(Skill skill);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using API.RequestModels;
-using API.ViewModels;
 using AutoMapper;
 using Core.Entities;
 
@@ -9,13 +8,6 @@ namespace API.Mappings
     {
         public MappingProfile()
         {
-            // domain to viewModel
-            CreateMap<Candidate, CandidateViewModel>();
-            CreateMap<Skill, SkillViewModel>();
-
-            // viewModel to domain
-            CreateMap<CandidateViewModel, Candidate>();
-            CreateMap<SkillViewModel, Skill>();
             CreateMap<CreateCandidateModel, Candidate>();
             CreateMap<CreateSkillModel, Skill>();
         }

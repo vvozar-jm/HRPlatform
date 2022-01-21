@@ -10,5 +10,6 @@ namespace Core.Repositories
         Task<IList<Skill>> GetSkillsAsync();
         Task CreateSkillAsync(Skill skill);
         Task DeleteSkillAsync(Skill skill);
+        Task<Skill> GetSkillByNameAsync(string skillName);
     }
 }
