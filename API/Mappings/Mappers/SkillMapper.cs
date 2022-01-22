@@ -1,10 +1,10 @@
-﻿using API.MapperServices.Contracts;
+﻿using API.Mappings.Contracts;
 using API.RequestModels;
 using Core.Entities;
 
-namespace API.MapperServices.Mappers
+namespace API.Mappings.Mappers
 {
-    public class SkillServiceMapper : ISkillServiceMapper
+    public class SkillMapper : ISkillMapper
     {
         public Skill MapFromCreateSkillModel(CreateSkillModel model)
         {

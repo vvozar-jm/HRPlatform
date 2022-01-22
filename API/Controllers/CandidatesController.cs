@@ -1,4 +1,4 @@
-﻿using API.MapperServices.Contracts;
+﻿using API.Mappings.Contracts;
 using API.RequestModels;
 using API.Validators;
 using Core.Entities;
@@ -15,9 +15,9 @@ namespace API.Controllers
     {
         private readonly ICandidateService _candidateService;
         private readonly ISkillService _skillService;
-        private readonly ICandidateServiceMapper _mapper;
+        private readonly ICandidateMapper _mapper;
 
-        public CandidatesController(ICandidateService candidateService, ISkillService skillService, ICandidateServiceMapper mapper)
+        public CandidatesController(ICandidateService candidateService, ISkillService skillService, ICandidateMapper mapper)
         {
             _candidateService = candidateService;
             _skillService = skillService;

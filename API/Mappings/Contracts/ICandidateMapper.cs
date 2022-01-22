@@ -1,9 +1,9 @@
 ﻿using API.RequestModels;
 using Core.Entities;
 
-namespace API.MapperServices.Contracts
+namespace API.Mappings.Contracts
 {
-    public interface ICandidateServiceMapper
+    public interface ICandidateMapper
     {
         Candidate MapFromCreateCandidateModel(CreateCandidateModel model);
     }

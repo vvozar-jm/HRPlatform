@@ -1,5 +1,5 @@
-using API.MapperServices.Contracts;
-using API.MapperServices.Mappers;
+using API.Mappings.Contracts;
+using API.Mappings.Mappers;
 using Core.Repositories;
 using Core.Services;
 using Data;
@@ -36,7 +36,7 @@ namespace API
             services.AddScoped<ISkillService, SkillService>();
 
             // mappers
-            services.AddScoped<ICandidateServiceMapper, CandidateServiceMapper>();
+            services.AddScoped<ICandidateMapper, CandidateMapper>();
 
             services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
                 x => x.MigrationsAssembly("Data")));

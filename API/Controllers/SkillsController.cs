@@ -1,4 +1,4 @@
-﻿using API.MapperServices.Contracts;
+﻿using API.Mappings.Contracts;
 using API.RequestModels;
 using API.Validators;
 using Core.Entities;
@@ -14,9 +14,9 @@ namespace API.Controllers
     public class SkillsController : ControllerBase
     {
         private readonly ISkillService _skillService;
-        private readonly ISkillServiceMapper _mapper;
+        private readonly ISkillMapper _mapper;
 
-        public SkillsController(ISkillService skillService, ISkillServiceMapper mapper)
+        public SkillsController(ISkillService skillService, ISkillMapper mapper)
         {
             _skillService = skillService;
             _mapper = mapper;
