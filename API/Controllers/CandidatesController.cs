@@ -1,11 +1,12 @@
 ﻿using API.Mappings.Contracts;
 using API.RequestModels;
+using API.ResponseModels;
 using API.Validators;
-using Core.Entities;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -25,15 +26,16 @@ namespace API.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IList<Candidate>>> GetAllCandidatesAsync()
+        public async Task<ActionResult<IList<CandidateViewModel>>> GetAllCandidatesAsync()
         {
             var candidates = await _candidateService.GetCandidatesAsync();
-            
-            return Ok(candidates);
+            var candidateViewModels = (candidates.Select(candidate => _mapper.MapToCandidateViewModel(candidate))).ToList();
+
+            return Ok(candidateViewModels);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Candidate>> GetCandidateByIdAsync(int id)
+        public async Task<ActionResult<CandidateViewModel>> GetCandidateByIdAsync(int id)
         {
             var candidate = await _candidateService.GetCandidateAsync(id);
 
@@ -42,11 +44,11 @@ namespace API.Controllers
                 return BadRequest("Candidate with given Id not found!");
             }
 
-            return Ok(candidate);
+            return Ok(_mapper.MapToCandidateViewModel(candidate));
         }
 
         [HttpGet("searchbyname/{name}")]
-        public async Task<ActionResult<IList<Candidate>>> SearchCandidatesByNameAsync(string name)
+        public async Task<ActionResult<IList<CandidateViewModel>>> SearchCandidatesByNameAsync(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -54,12 +56,13 @@ namespace API.Controllers
             }
 
             var candidates = await _candidateService.GetCandidatesByNameAsync(name);
+            var candidateViewModels = (candidates.Select(candidate => _mapper.MapToCandidateViewModel(candidate))).ToList();
 
-            return Ok(candidates);
+            return Ok(candidateViewModels);
         }
 
         [HttpGet("searchbyskill/{skillName}")]
-        public async Task<ActionResult<IList<Candidate>>> SearchCandidatesBySkillNameAsync(string skillName)
+        public async Task<ActionResult<IList<CandidateViewModel>>> SearchCandidatesBySkillNameAsync(string skillName)
         {
             if (string.IsNullOrWhiteSpace(skillName))
             {
@@ -67,12 +70,13 @@ namespace API.Controllers
             }
 
             var candidates = await _candidateService.GetCandidatesBySkillAsync(skillName);
+            var candidateViewModels = (candidates.Select(candidate => _mapper.MapToCandidateViewModel(candidate))).ToList();
 
-            return Ok(candidates);
+            return Ok(candidateViewModels);
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<Candidate>> CreateCandidateAsync([FromBody] CreateCandidateModel model)
+        public async Task<ActionResult<CandidateViewModel>> CreateCandidateAsync([FromBody] CreateCandidateModel model)
         {
             var validator = new CreateCandidateModelValidator();
             var validationResult = await validator.ValidateAsync(model);
@@ -86,11 +90,11 @@ namespace API.Controllers
 
             var newCandidate = await _candidateService.CreateCandidateAsync(candidateToCreate);
 
-            return Ok(newCandidate);
+            return Ok(_mapper.MapToCandidateViewModel(newCandidate));
         }
 
         [HttpPut("{candidateId}/addskill/{skillId}")]
-        public async Task<ActionResult<Candidate>> AddSkillToCandidateAsync(int candidateId, int skillId)
+        public async Task<ActionResult<CandidateViewModel>> AddSkillToCandidateAsync(int candidateId, int skillId)
         {
             var candidate = await _candidateService.GetCandidateAsync(candidateId);
 
@@ -113,11 +117,11 @@ namespace API.Controllers
 
             var updatedCandidate = await _candidateService.AddSkillToCandidateAsync(candidateId, skillId);
 
-            return Ok(updatedCandidate);
+            return Ok(_mapper.MapToCandidateViewModel(updatedCandidate));
         }
 
         [HttpPut("{candidateId}/removeskill/{skillId}")]
-        public async Task<ActionResult<Candidate>> RemoveSkillFromCandidateAsync(int candidateId, int skillId)
+        public async Task<ActionResult<CandidateViewModel>> RemoveSkillFromCandidateAsync(int candidateId, int skillId)
         {
             var candidate = await _candidateService.GetCandidateAsync(candidateId);
 
@@ -140,7 +144,7 @@ namespace API.Controllers
 
             var updatedCandidate = await _candidateService.RemoveSkillFromCandidateAsync(candidateId, skillId);
 
-            return Ok(updatedCandidate);
+            return Ok(_mapper.MapToCandidateViewModel(updatedCandidate));
         }
 
         [HttpDelete("{id}")]

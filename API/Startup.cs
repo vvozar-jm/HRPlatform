@@ -37,6 +37,7 @@ namespace API
 
             // mappers
             services.AddScoped<ICandidateMapper, CandidateMapper>();
+            services.AddScoped<ISkillMapper, SkillMapper>();
 
             services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
                 x => x.MigrationsAssembly("Data")));
