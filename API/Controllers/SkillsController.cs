@@ -1,6 +1,6 @@
-﻿using API.RequestModels;
+﻿using API.MapperServices.Contracts;
+using API.RequestModels;
 using API.Validators;
-using AutoMapper;
 using Core.Entities;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,9 +14,9 @@ namespace API.Controllers
     public class SkillsController : ControllerBase
     {
         private readonly ISkillService _skillService;
-        private readonly IMapper _mapper;
+        private readonly ISkillServiceMapper _mapper;
 
-        public SkillsController(ISkillService skillService, IMapper mapper)
+        public SkillsController(ISkillService skillService, ISkillServiceMapper mapper)
         {
             _skillService = skillService;
             _mapper = mapper;
@@ -54,7 +54,7 @@ namespace API.Controllers
                 return BadRequest(validationResult.Errors);
             }
 
-            var skillToCreate = _mapper.Map<CreateSkillModel, Skill>(model);
+            var skillToCreate = _mapper.MapFromCreateSkillModel(model);
 
             var newSkill = await _skillService.CreateSkillAsync(skillToCreate);
 

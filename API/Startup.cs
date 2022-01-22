@@ -1,4 +1,5 @@
-using API.Mappings;
+using API.MapperServices.Contracts;
+using API.MapperServices.Mappers;
 using Core.Repositories;
 using Core.Services;
 using Data;
@@ -26,13 +27,16 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(MappingProfile));
-
+            // repositories
             services.AddScoped<ICandidateRepository, CandidateRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
 
+            // services
             services.AddScoped<ICandidateService, CandidateService>();
             services.AddScoped<ISkillService, SkillService>();
+
+            // mappers
+            services.AddScoped<ICandidateServiceMapper, CandidateServiceMapper>();
 
             services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
                 x => x.MigrationsAssembly("Data")));

@@ -1,6 +1,6 @@
-﻿using API.RequestModels;
+﻿using API.MapperServices.Contracts;
+using API.RequestModels;
 using API.Validators;
-using AutoMapper;
 using Core.Entities;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +15,9 @@ namespace API.Controllers
     {
         private readonly ICandidateService _candidateService;
         private readonly ISkillService _skillService;
-        private readonly IMapper _mapper;
+        private readonly ICandidateServiceMapper _mapper;
 
-        public CandidatesController(ICandidateService candidateService, ISkillService skillService, IMapper mapper)
+        public CandidatesController(ICandidateService candidateService, ISkillService skillService, ICandidateServiceMapper mapper)
         {
             _candidateService = candidateService;
             _skillService = skillService;
@@ -82,7 +82,7 @@ namespace API.Controllers
                 return BadRequest(validationResult.Errors);
             }
 
-            var candidateToCreate = _mapper.Map<CreateCandidateModel, Candidate>(model);
+            var candidateToCreate = _mapper.MapFromCreateCandidateModel(model);
 
             var newCandidate = await _candidateService.CreateCandidateAsync(candidateToCreate);
 
