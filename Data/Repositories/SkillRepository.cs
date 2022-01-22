@@ -39,7 +39,7 @@ namespace Data.Repositories
         public async Task<Skill> GetSkillByNameAsync(string skillName)
         {
             return await _context.Skills
-                .Where(s => s.Name.Contains(skillName, StringComparison.CurrentCultureIgnoreCase))
+                .Where(s => s.Name == skillName)
                 .FirstOrDefaultAsync();
         }
 

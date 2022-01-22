@@ -1,10 +1,11 @@
 ﻿using API.Mappings.Contracts;
 using API.RequestModels;
+using API.ResponseModels;
 using API.Validators;
-using Core.Entities;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -23,15 +24,16 @@ namespace API.Controllers
         }
 
         [HttpGet("")]
-        public async Task<ActionResult<IList<Skill>>> GetAllSkillsAsync()
+        public async Task<ActionResult<IList<SkillViewModel>>> GetAllSkillsAsync()
         {
             var skills = await _skillService.GetSkillsAsync();
+            var skillViewModels = (skills.Select(skill => _mapper.MapToSkillViewModel(skill))).ToList();
 
-            return Ok(skills);
+            return Ok(skillViewModels);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Skill>> GetSkillByIdAsync(int id)
+        public async Task<ActionResult<SkillViewModel>> GetSkillByIdAsync(int id)
         {
             var skill = await _skillService.GetSkillAsync(id);
 
@@ -40,11 +42,11 @@ namespace API.Controllers
                 return BadRequest("Skill with given Id not found!");
             }
 
-            return Ok(skill);
+            return Ok(_mapper.MapToSkillViewModel(skill));
         }
 
         [HttpPost("")]
-        public async Task<ActionResult<Skill>> CreateSkillAsync([FromBody] CreateSkillModel model)
+        public async Task<ActionResult<SkillViewModel>> CreateSkillAsync([FromBody] CreateSkillModel model)
         {
             var validator = new CreateSkillModelValidator();
             var validationResult = await validator.ValidateAsync(model);
@@ -58,7 +60,7 @@ namespace API.Controllers
 
             var newSkill = await _skillService.CreateSkillAsync(skillToCreate);
 
-            return Ok(newSkill);
+            return Ok(_mapper.MapToSkillViewModel(newSkill));
         }
 
         [HttpDelete("{id}")]
