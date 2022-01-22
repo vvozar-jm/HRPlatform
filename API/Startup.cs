@@ -42,10 +42,7 @@ namespace API
             services.AddDbContext<HrPlatformDbContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
                 x => x.MigrationsAssembly("Data")));
 
-            services.AddControllers().AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-            });
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
